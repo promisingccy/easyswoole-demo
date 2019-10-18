@@ -6,6 +6,8 @@
     },
     "require": {
         "easyswoole/easyswoole": "3.x",
-        "easyswoole/mysqli-pool": "^1.0"
+        "easyswoole/mysqli-pool": "^1.0",
+        "easyswoole/socket": "^1.1",
+        "easyswoole/task": "^1.0"
     }
 }
