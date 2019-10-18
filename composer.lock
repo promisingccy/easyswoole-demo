@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8ae82c177dcb4c686ae8ddf293ccc41b",
+    "content-hash": "7efe7cbb93a495243872838b82871a0e",
     "packages": [
         {
             "name": "dragonmantank/cron-expression",
@@ -456,6 +456,66 @@
                 "swoole"
             ],
             "time": "2019-08-09T03:44:56+00:00"
+        },
+        {
+            "name": "easyswoole/rpc",
+            "version": "4.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/easy-swoole/rpc.git",
+                "reference": "82fb9e4357f42532c7180cb1c96835f847ea1af8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/easy-swoole/rpc/zipball/82fb9e4357f42532c7180cb1c96835f847ea1af8",
+                "reference": "82fb9e4357f42532c7180cb1c96835f847ea1af8",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "easyswoole/component": "^1.7",
+                "easyswoole/spl": "^1.0",
+                "easyswoole/trigger": "^1.0",
+                "easyswoole/utility": "^1.0",
+                "ext-json": ">=1.0",
+                "ext-openssl": ">=7.1",
+                "ext-swoole": ">=4.3.0",
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "easyswoole/swoole-ide-helper": "^1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "EasySwoole\\Rpc\\": "src/",
+                    "EasySwoole\\Rpc\\Test\\": "test/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "YF",
+                    "email": "291323003@qq.com"
+                }
+            ],
+            "description": "An efficient swoole framework",
+            "homepage": "https://www.easyswoole.com/",
+            "keywords": [
+                "async",
+                "easyswoole",
+                "framework",
+                "swoole"
+            ],
+            "time": "2019-08-07T03:24:48+00:00"
         },
         {
             "name": "easyswoole/socket",

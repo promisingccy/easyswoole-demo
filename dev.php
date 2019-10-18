@@ -17,7 +17,7 @@ return [
          * EASYSWOOLE_WEB_SOCKET_SERVER
          * EASYSWOOLE_REDIS_SERVER
          */
-        'SERVER_TYPE' => EASYSWOOLE_WEB_SOCKET_SERVER,
+        'SERVER_TYPE' => EASYSWOOLE_WEB_SERVER,
         'SOCK_TYPE' => SWOOLE_TCP,
         'RUN_MODEL' => SWOOLE_PROCESS,
         'SETTING' => [
@@ -43,4 +43,17 @@ return [
         'timeout'       => 5,
         'charset'       => 'utf8mb4',
     ],
+    'CONSOLE' => [
+        'ENABLE' => true,
+        'LISTEN_ADDRESS' => '127.0.0.1',
+        'HOST' => '127.0.0.1',
+        'PORT' => 9500,
+        'USER' => 'root',
+        'PASSWORD' =>'123456'
+    ],
+    'FAST_CACHE' => [
+        'PROCESS_NUM' => 0,
+        'BACKLOG' => 256,
+    ],
+    'DISPLAY_ERROR' => true,
 ];

@@ -9,14 +9,18 @@
 namespace EasySwoole\EasySwoole;
 
 
+use App\console\TestConsole;
+use App\Utility\Context\RegisterClassHandel;
+use EasySwoole\Component\Context\ContextManager;
+use EasySwoole\Component\Tests\ContextTest;
+use EasySwoole\Console\ConsoleModuleContainer;
 use EasySwoole\EasySwoole\Swoole\EventRegister;
 use EasySwoole\EasySwoole\AbstractInterface\Event;
 use EasySwoole\Http\Request;
 use EasySwoole\Http\Response;
-
-//websocket控制器
-use EasySwoole\Socket\Dispatcher;
-use App\WebSocket\WebSocketParser;
+use EasySwoole\Rpc\NodeManager\FileManager;
+use EasySwoole\Rpc\Rpc;
+use PhpParser\Node\Expr\New_;
 
 class EasySwooleEvent implements Event
 {
@@ -25,30 +29,40 @@ class EasySwooleEvent implements Event
     {
         // TODO: Implement initialize() method.
         date_default_timezone_set('Asia/Shanghai');
-        $configData = Config::getInstance()->getConf('MYSQL');
-        $config = new \EasySwoole\Mysqli\Config($configData);
-        $poolConf = \EasySwoole\MysqliPool\Mysql::getInstance()->register('mysql', $config);
-        $poolConf->setMaxObjectNum(20);
+
     }
 
-    // 注册服务
-    public static function mainServerCreate(EventRegister $register): void
+    public static function mainServerCreate(EventRegister $register)
     {
-        /**
-         * **************** websocket控制器 **********************
-         */
-        // 创建一个 Dispatcher 配置
-        $conf = new \EasySwoole\Socket\Config();
-        // 设置 Dispatcher 为 WebSocket 模式
-        $conf->setType(\EasySwoole\Socket\Config::WEB_SOCKET);
-        // 设置解析器对象
-        $conf->setParser(new WebSocketParser());
-        // 创建 Dispatcher 对象 并注入 config 对象
-        $dispatch = new Dispatcher($conf);
-        // 给server 注册相关事件 在 WebSocket 模式下  on message 事件必须注册 并且交给 Dispatcher 对象处理
-        $register->set(EventRegister::onMessage, function (\swoole_websocket_server $server, \swoole_websocket_frame $frame) use ($dispatch) {
-            $dispatch->dispatch($server, $frame->data, $frame);
+        #####################  rpc 服务1 #######################
+        $rpcConfig = new \EasySwoole\Rpc\Config();
+        //注册服务名称
+        $rpcConfig->setServiceName('ser1');
+
+//设置广播地址，可以多个地址
+        $rpcConfig->getAutoFindConfig()->setAutoFindBroadcastAddress(['127.0.0.1:9600']);
+//设置广播监听地址
+        $rpcConfig->getAutoFindConfig()->setAutoFindListenAddress('127.0.0.1:9600');
+
+        $rpcConfig->setNodeManager(FileManager::class);
+        $rpc1 = new Rpc($rpcConfig);
+        //注册响应方法
+        $rpc1->registerAction('call1', function (\EasySwoole\Rpc\Request $request, \EasySwoole\Rpc\Response $response) {
+            //获取请求参数
+            var_dump($request->getArg());
+            //设置返回给客户端信息
+            $response->setMessage('response');
         });
+
+
+        //监听/广播 rpc 自定义进程对象
+        $autoFindProcess = $rpc1->autoFindProcess('es_rpc_process_1');
+        //增加自定义进程去监听/广播服务
+        ServerManager::getInstance()->getSwooleServer()->addProcess($autoFindProcess->getProcess());
+        //起一个子服务去运行rpc
+        ServerManager::getInstance()->addServer('rpc1',9527);
+        $rpc1->attachToServer(ServerManager::getInstance()->getSwooleServer('rpc1'));
+        // TODO: Implement mainServerCreate() method.
     }
 
     public static function onRequest(Request $request, Response $response): bool
