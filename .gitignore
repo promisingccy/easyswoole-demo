@@ -29,5 +29,8 @@ phpunit.phar
 # vagrant runtime
 /.vagrant
 
-/Log
-/Temp
+/composer.lock
+/Log/
+/Temp/
+/Temp2/
+/easyswoole

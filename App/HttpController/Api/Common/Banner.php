@@ -11,6 +11,7 @@ use EasySwoole\Validate\Validate;
 /**
  * Class Banner
  * Create With Automatic Generator
+ * 公共控制器放不需要登陆即可查看的控制器,例如banner列表查看
  */
 class Banner extends CommonBase
 {
